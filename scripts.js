@@ -79,7 +79,7 @@
   			BennysChart.draw(BennysDataTable, CustomChart);
    	
 	}
-		
+		//Below I have created and named the function GLibloaded
 	function GLibLoaded(){
 		
 		console.log("google loaded - this is to see if the GLibLoaded function has worked");
@@ -89,7 +89,7 @@
 		$.get("UEMP270V_data.json", JSONLoaded, "json");
 		
 	}
-	
+		//Below I have created and named the function BennysPageLoaded	
 	function BennysPageLoaded(){
 		
 		console.log("got to Benny's Page Loaded");
