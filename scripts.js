@@ -2,74 +2,89 @@
  * @author
  */
 
-	console.log("hello there"); 
+	console.log("hello there - this is to test the page"); 
 	
-	//UnemploymentData is the local name of the json file I just loaded
+		//UnemploymentData is the local name of the json file that will be loaded
 	
-	function dataLoaded(UnemploymentData){
+	
+	function JSONLoaded(UnemploymentData){
 		
 		console.log(UnemploymentData)
 		
-		var myObsData = UnemploymentData.observations; 
+		//For our chart, we only want to use the "Observations" property of the JSON data file, which is an array of objects.
+		//The below variable is what makes the selection; it basically means take UnemploymentData (which is the local name that stands for the
+		// actual JSON data file: UEMP27...), and choose the observations object; this variable will be called ObservationsArray
 		
-		///I am trying to construct an array of arrays
+		var ObservationsArray = UnemploymentData.observations; 
 		
-		var myDataArray = [];
+		//The way the Google Visualizations library wants to be 'fed' the data is as an array of arrays
+		//However, the observations property within the JSON file that we are working with is formatted as an array of objects
+		//We therefore have to convert the data into an array of arrays, so that the data can be successfully transformed into a Google Visualizations chart
+		//Below I have created a variable called GoogleDataArray, which is basically the array that the data will be placed into
 		
-		//?console log my DataArray
+		var GoogleDataArray = [];
 		
-		//wait a second, I need headers in the first row
-		//create a header array and push to 
+		//In order for the chart to show up on the page properly, I need to add headers
+		//Headers always go on the first row
+		//In order to create a header I have created the variable below called: FirstRowHeader
+		//FirstRowHeader basically means/says: create a header array and push to GoogleDataArray
 		
+		var FirstRowHeader = ["Date", "Value"];
+		GoogleDataArray.push(FirstRowHeader);
 		
-		var headerArray = ["Date", "Value"];
-		myDataArray.push(headerArray);
-		
-		
-		
-		//push always puts things onto the end of the array
-		
-		// specify starting point, ending point, 
-		for(var i=0; i<myObsData.length; i++){
+		//This is my for loop which I have created in order for the computer to loop through the JSON array - to create my array of arrays
+		for(var i=0; i<ObservationsArray.length; i++){
 			
-			//create reference to current object in list
-			var currObj = myObsData[i];
+		//The below variable creates a reference to current objects in the list
+			var currentObject = ObservationsArray[i];
 			
-			//below is the Number function, basically says 'treat this as a number.' If you need to make it a string, you would write String.
-			var currArray = [currObj.date, Number(currObj.value)];
+		//Within the JSON data file that we are using, we are only interested in two properties within the "observations" array of objects; 
+		//these are the "date" and "value" properties. Both of these are formatted as strings (they are within "")
+		//The Google Visualizations library wants the "value" key values to be formatted as numbers
+		//Below I use the Number function (which bascially means/says: 'treat this as a number')
+		//Should we wish to do the inverse process (conversion from numbers to string data types) we would write String, instead
+		 
+			var currentArray = [currentObject.date, Number(currentObject.value)];
 			
-			//myDataArray is the array of arrays
+		//GoogleDataArray is my array of arrays that we created above. What the below coding does is basically apply the Number function
+		//to our array of arrays - so that within our newly reformatted array of arrays, we now have numbers instead of string type data
+		//for our "value" entries
 			
-			myDataArray.push(currArray);
+			GoogleDataArray.push(currentArray);
 			
-		} //end of for loop
+		} //This is end of for loop
 		
-		console.log(myDataArray);
+		console.log(GoogleDataArray);
 		
 		//fed data to visualization library
-		 var myDataTable = google.visualization.arrayToDataTable(myDataArray);
+		 var BennysDataTable = google.visualization.arrayToDataTable(GoogleDataArray);
 		 
 		 
-		 //create options object to actually customize the look of the chart
+		 //With Google Visualizations we have the option to customize our charts
+		 //Below, I used the CustomChart variable to create an options object to add a title to the chart
 		 
-		 var chartOptions = {
-          title: "Unemployment since 1980"
+		 var CustomChart = {
+          title: "This chart shows unemployment data since 1980"
         };
 
 
-		//tell it to create a line chart
-		var myChart = new google.visualization.LineChart(document.getElementById("myGoogleChartDiv"));
-  			myChart.draw(myDataTable, chartOptions);
+		//Below is where we finally tell the computer to create a line chart
+		//We use a function that is part of the Google Visualizations library 
+		//What makes the Google Visualizations library powerful is the fact that we can easily change the type of chart that visualizes 
+		//our data by changing the LineChart part of the variable to BarChart, or ColumnChart etc..
+		
+		var BennysChart = new google.visualization.LineChart(document.getElementById("myGoogleChartDiv"));
+  			BennysChart.draw(BennysDataTable, CustomChart);
    	
 	}
 	
 	
-	function googleLoaded(){
+	function GLibLoaded(){
 		
-		console.log("google loaded");
+		console.log("google loaded - this is to see if the GLibLoaded function has worked");
 		
 		// 
-		$.get("UEMP270V_data.json", dataLoaded, "json");
+		$.get("UEMP270V_data.json", JSONLoaded, "json");
 		
 	}
 	
@@ -78,9 +93,9 @@
 		console.log("got to page Loaded");
 		
 		//load the google visualization library 
-		//added the callback - want the name of the callback function to be googleLoaded
+		//added the callback - want the name of the callback function to be GLibLoaded
 		
-		google.load("visualization", "1", {packages:["corechart"], callback: "googleLoaded"});
+		google.load("visualization", "1", {packages:["corechart"], callback: "GLibLoaded"});
 
 		
 	}
