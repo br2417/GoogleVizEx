@@ -2,17 +2,17 @@
  * @author
  */
 
-	console.log("hi there"); 
+	console.log("hello there"); 
 	
-	//UNEMPDATA is the local name of the json file I just loaded
+	//UnemploymentData is the local name of the json file I just loaded
 	
-	function dataLoaded(UNEMPDATA){
+	function dataLoaded(UnemploymentData){
 		
-		console.log(UNEMPDATA)
+		console.log(UnemploymentData)
 		
-		var myObsData = UNEMPDATA.observations; 
+		var myObsData = UnemploymentData.observations; 
 		
-		///i am trying to construct an array of arrays
+		///I am trying to construct an array of arrays
 		
 		var myDataArray = [];
 		
@@ -58,7 +58,7 @@
 
 
 		//tell it to create a line chart
-		var myChart = new google.visualization.LineChart(document.getElementById("myChartDiv"));
+		var myChart = new google.visualization.LineChart(document.getElementById("myGoogleChartDiv"));
   			myChart.draw(myDataTable, chartOptions);
    	
 	}
