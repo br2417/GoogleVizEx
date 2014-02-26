@@ -6,7 +6,6 @@
 	
 		//UnemploymentData is the local name of the json file that will be loaded
 	
-	
 	function JSONLoaded(UnemploymentData){
 		
 		console.log(UnemploymentData)
@@ -33,9 +32,11 @@
 		GoogleDataArray.push(FirstRowHeader);
 		
 		//This is my for loop which I have created in order for the computer to loop through the JSON array - to create my array of arrays
+		
 		for(var i=0; i<ObservationsArray.length; i++){
 			
 		//The below variable creates a reference to current objects in the list
+			
 			var currentObject = ObservationsArray[i];
 			
 		//Within the JSON data file that we are using, we are only interested in two properties within the "observations" array of objects; 
@@ -54,19 +55,20 @@
 			
 		} //This is end of for loop
 		
+		
+		//I have created the below console log to check that my data is now formatted as an array of arrays
+		//In the console tab of my browser I expect to see my newly formed data values (only the observations part) as arrays of arrays
 		console.log(GoogleDataArray);
 		
-		//fed data to visualization library
+		//The below variable feeds the data to visualization library
 		 var BennysDataTable = google.visualization.arrayToDataTable(GoogleDataArray);
-		 
-		 
+		  
 		 //With Google Visualizations we have the option to customize our charts
 		 //Below, I used the CustomChart variable to create an options object to add a title to the chart
 		 
 		 var CustomChart = {
           title: "This chart shows unemployment data since 1980"
         };
-
 
 		//Below is where we finally tell the computer to create a line chart
 		//We use a function that is part of the Google Visualizations library 
@@ -77,20 +79,20 @@
   			BennysChart.draw(BennysDataTable, CustomChart);
    	
 	}
-	
-	
+		
 	function GLibLoaded(){
 		
 		console.log("google loaded - this is to see if the GLibLoaded function has worked");
 		
-		// 
+		// Below is the jQuery get function, which basically means/says get and laod the data - in this case our UEMP.. JSON file
+		
 		$.get("UEMP270V_data.json", JSONLoaded, "json");
 		
 	}
 	
-	function pageLoaded(){
+	function BennysPageLoaded(){
 		
-		console.log("got to page Loaded");
+		console.log("got to Benny's Page Loaded");
 		
 		//load the google visualization library 
 		//added the callback - want the name of the callback function to be GLibLoaded
@@ -99,5 +101,6 @@
 
 		
 	}
-	
-	$(document).ready(pageLoaded);
+		//The below is a jQuery function that makes sure that the document is ready before loading the data on the page
+		//The name of the call-back is BennysPageLoaded
+	$(document).ready(BennysPageLoaded);
